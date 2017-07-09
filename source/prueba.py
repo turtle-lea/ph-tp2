@@ -2,6 +2,23 @@
 
 from pydub import AudioSegment
 import sys
-from TTS_and_STT import text_to_speech
 
-text_to_speech("prueba2.wav", "esto es una prueba", rate_change="+0%", f0mean_change="+0%")
+song = AudioSegment.from_wav("../audios/describir_velocidad.wav")
+three_seconds = 3 * 1000
+first_3_seconds = song[:three_seconds]
+# last_3_seconds = song[-3000:]
+
+# # boost volume by 6dB
+# beginning = first_10_seconds + 6
+# # reduce volume by 3dB
+# end = last_5_seconds - 3
+
+# x = sys.argv[1]
+
+# print "Hola"
+
+first_3_seconds.append(song[three_seconds:].low_pass_filter(100)).export("modified.wav", format="wav")
+
+# (first_3_seconds + last_3_seconds).export("modified.wav", format="wav")
+
+# forward.export("modified.wav", format="wav")

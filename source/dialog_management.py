@@ -23,6 +23,10 @@ ORDEN = "NORMAL"
 
 # REMOVER_PARTE. Estados: NINGUNA, INICIAL, MEDIA, FINAL
 REMOVER_PARTE = "NINGUNA"
+
+# REMOVER_PARTE. Estados: NORMAL, ACTIVADO
+FILTRO_PASABAJOS = "NORMAL"
+
 audios_folder = '../audios/'
 
 """PyAudio Example: Play a wave file."""
@@ -71,7 +75,7 @@ def speedup(velocidad):
 
 def remover_parte(remover_parte):
     global audios_folder
-    if remover_parte == 'NORMAL':
+    if remover_parte == "NINGUNA":
         return
     audio = AudioSegment.from_wav("audio.wav")
     three_seconds = 3*1000
@@ -95,15 +99,29 @@ def remover_parte(remover_parte):
         beginning.append(end, crossfade=1000).export("audio.wav", format="wav")
         return
 
+def filtrar_bajos(filtro_pasabajos):
+    global audios_folder
+    if filtro_pasabajos == "NORMAL":
+        return
+    audio = AudioSegment.from_wav("audio.wav")
+    two_seconds = 2*1000
+    audio_muy_corto = audios_folder + 'audio_muy_corto.wav'
+    if audio.duration_seconds < 4 and filtrar_bajos != "NORMAL":
+        play(audio_muy_corto)
+        return
+    beginning = audio[:two_seconds]
+    beginning.append(audio[two_seconds:].low_pass_filter(150)).export("audio.wav", format="wav")
+    return
+
 def comandos_seleccionados():
     global VELOCIDAD, ORDEN, REMOVER_PARTE
-    text = " Por supuesto. Velocidad: " + VELOCIDAD + ". Orden: " + ORDEN + ". Remover parte: " + REMOVER_PARTE
+    text = " Por supuesto. Velocidad: " + VELOCIDAD + ". Orden: " + ORDEN + ". Remover parte: " + REMOVER_PARTE + ". Filtro pasabajos: " + FILTRO_PASABAJOS
     text_to_speech("comandos_seleccionados.wav", text, rate_change="+0%", f0mean_change="+0%")
     play("comandos_seleccionados.wav")
     return
 
 def manage():
-    global VELOCIDAD, ORDEN, REMOVER_PARTE, COMANDO_INVALIDO
+    global VELOCIDAD, ORDEN, REMOVER_PARTE, COMANDO_INVALIDO, FILTRO_PASABAJOS
     message = asr('audio.wav')
     print message
 
@@ -146,6 +164,15 @@ def manage():
                 cambiar_remover_parte('FINAL')
                 play(audios_folder + 'remover_final.wav')
                 return
+        if ('filtro' in message) or ('pasa' in message) or ('bajos' in message):
+            if ('normal' in message) or ('cero' in message):
+                cambiar_filtro_pasabajos('NORMAL')
+                play(audios_folder + 'pasabajos_normal.wav')
+                return
+            if ('activado' in message) or ('uno' in message):
+                cambiar_filtro_pasabajos('ACTIVADO')
+                play(audios_folder + 'pasabajos_activado.wav')
+                return
 
         play(audios_folder + 'repetir_nuevamente.wav')
         return
@@ -165,6 +192,9 @@ def manage():
         if ('remover' in message) or ('parte' in message):
             play(audios_folder + 'describir_remover_parte.wav')
             return
+        if ('filtro' in message) or ('pasa' in message) or ('bajos') in message:
+            play(audios_folder + 'describir_filtro_pasabajos.wav')
+            return
         play(audios_folder + 'repetir_nuevamente.wav')
         return
 
@@ -174,6 +204,7 @@ def manage():
     speedup(VELOCIDAD)
     reverse(ORDEN)
     remover_parte(REMOVER_PARTE)
+    filtrar_bajos(FILTRO_PASABAJOS)
     play()
     return
 
@@ -202,13 +233,22 @@ def cambiar_velocidad(nueva_velocidad):
     global VELOCIDAD
     VELOCIDAD = nueva_velocidad
     print "Nueva velocidad: " + VELOCIDAD
+    return
 
 def cambiar_orden(nuevo_orden):
     global ORDEN
     ORDEN = nuevo_orden
     print "Nueva orden: " + ORDEN
+    return
 
 def cambiar_remover_parte(nueva_parte):
     global REMOVER_PARTE
     REMOVER_PARTE = nueva_parte
     print "Remover nueva parte: " + REMOVER_PARTE
+    return
+
+def cambiar_filtro_pasabajos(nueva_filtro):
+    global FILTRO_PASABAJOS
+    FILTRO_PASABAJOS = nueva_filtro
+    print "Filtro pasabajos: " + FILTRO_PASABAJOS
+    return

@@ -7,8 +7,11 @@ https://curl.trillworks.com/
 
 Speed Up (Trying speedup)
 Fade out (Fade out)
-Low pass filter
-Concatenate
 Boost volume
 Increse pitch uniformly (PRAAT)
+
+
+Low pass filter = Filtro pasa bajos
+Concatenate = LOOP, repetir
+
 Volumen camello

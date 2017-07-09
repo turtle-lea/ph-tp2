@@ -13,7 +13,7 @@ from TTS_and_STT import text_to_speech
 username = "c2bd3588-ad8d-4405-a1c8-28ffde7beaee"
 password = "wNINKHokHL1w"
 speech_to_text_base = "https://stream.watsonplatform.net/speech-to-text/api/v1"
-COMANDO_INVALIDO = "COMANDO_INVALIDO"
+COMANDO_INVALIDO = "Ingrese audio nuevamente"
 
 # VELOCIDAD. Estados: NORMAL, AUMENTADA
 VELOCIDAD = "NORMAL"
@@ -100,6 +100,7 @@ def comandos_seleccionados():
     text = " Por supuesto. Velocidad: " + VELOCIDAD + ". Orden: " + ORDEN + ". Remover parte: " + REMOVER_PARTE
     text_to_speech("comandos_seleccionados.wav", text, rate_change="+0%", f0mean_change="+0%")
     play("comandos_seleccionados.wav")
+    return
 
 def manage():
     global VELOCIDAD, ORDEN, REMOVER_PARTE, COMANDO_INVALIDO
@@ -145,15 +146,26 @@ def manage():
                 cambiar_remover_parte('FINAL')
                 play(audios_folder + 'remover_final.wav')
                 return
-        print "Comando aplicado"
+
+        play(audios_folder + 'repetir_nuevamente.wav')
+        return
 
     # Sofia, puedes ayudarme a ver qué opciones tengo seleccionadas
-    if (u'sofía' in message) or ('puedes' in message) or ('ayudarme' in message) or ('ver' in message) or ('seleccionados' in message):
+    if (u'sofía' in message) or ('puedes' in message) or ('ayudarme' in message) or ('recordar' in message) or ('seleccionadas' in message):
         comandos_seleccionados()
         return
 
-    if ('describir' in message) or (u'opción' in message):
-        play(audios_folder + 'lista_comandos.wav')
+    if ('describir' in message) or (u'uso' in message):
+        if ('cambiar' in message) or ('velocidad' in message):
+            play(audios_folder + 'describir_velocidad.wav')
+            return
+        if ('modificar' in message) or ('orden' in message):
+            play(audios_folder + 'describir_orden.wav')
+            return
+        if ('remover' in message) or ('parte' in message):
+            play(audios_folder + 'describir_remover_parte.wav')
+            return
+        play(audios_folder + 'repetir_nuevamente.wav')
         return
 
     if message == COMANDO_INVALIDO or not message.strip():

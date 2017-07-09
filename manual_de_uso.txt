@@ -1,0 +1,9 @@
+Sofia:
+
+Sofia. Puedes ayudarme a ver qué opciones tengo seleccionadas?
+
+Aplicar comando + Cambiar velocidad + Normal Cero o Aumentada Uno
+
+Aplicar comando + Modificar orden + Normal Cero o Invertido Uno
+
+Aplicar comando + Remover parte + Ninguna Cero, Inicial Uno, Media Dos o Final Tres

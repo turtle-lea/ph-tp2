@@ -1,0 +1,48 @@
+{
+   "results": [
+      {
+         "alternatives": [
+            {
+               "confidence": 0.588,
+               "transcript": "comando aumentar velocidad "
+            }
+         ],
+         "final": true
+      }
+   ],
+   "result_index": 0
+}
+
+
+{
+   "results": [
+      {
+         "alternatives": [
+            {
+               "confidence": 1.0,
+               "transcript": "consciente de su patrimonio espiritual y moral la unión está fundada sobre los valores indivisibles y universales de la dignidad humana la libertad la igualdad y la solidaridad y se basa en los principios de la democracia y el estado de derecho "
+            }
+         ],
+         "final": true
+      },
+      {
+         "alternatives": [
+            {
+               "confidence": 0.993,
+               "transcript": "al instituir la ciudadanía de la unión y crear un espacio de libertad seguridad y justicia sitúa a la persona en el centro de su actuación "
+            }
+         ],
+         "final": true
+      }
+   ],
+   "result_index": 0
+}
+
+example1 = {u'results': [{u'alternatives': [{u'confidence': 0.588, u'transcript': u'comando aumentar velocidad '}], u'final': True}], u'result_index': 0}
+
+example2 = {u'results': [{u'alternatives': [{u'confidence': 1.0, u'transcript': u'consciente de su patrimonio espiritual y moral la uni\xf3n est\xe1 fundada sobre los valores indivisibles y universales de la dignidad humana la libertad la igualdad y la solidaridad y se basa en los principios de la democracia y el estado de derecho '}], u'final': True}, {u'alternatives': [{u'confidence': 0.993, u'transcript': u'al instituir la ciudadan\xeda de la uni\xf3n y crear un espacio de libertad seguridad y justicia sit\xfaa a la persona en el centro de su actuaci\xf3n '}], u'final': True}], u'result_index': 0}
+
+
+if ('aplicar' in message) or ('comando' in message):
+      if ('aumentar' in message) or ('velocidad' in message):
+          aumentar_velocidad()

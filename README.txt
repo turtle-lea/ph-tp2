@@ -11,3 +11,4 @@ Low pass filter
 Concatenate
 Boost volume
 Increse pitch uniformly (PRAAT)
+Volumen camello

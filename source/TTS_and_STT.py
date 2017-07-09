@@ -42,9 +42,9 @@ def text_to_speech(filename, text, rate_change="+0%", f0mean_change="+0%", tts=t
     audio_file.close()
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
   # Probamos la síntesis...
-	# text_to_speech("prueba.wav", "esto es una prueba", rate_change="+0%", f0mean_change="+0%")
+	text_to_speech("prueba.wav", "esto es una prueba", rate_change="+0%", f0mean_change="+0%")
 
 	# Y ahora probamos el reconocimiento...
 	# print(speech_to_text("limpiar_voz.wav"))

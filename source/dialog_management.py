@@ -61,6 +61,7 @@ def play(audio_filename="audio.wav"):
 
     # close PyAudio (5)
     p.terminate()
+    return
 
 def reverse(orden):
     if orden == 'NORMAL':

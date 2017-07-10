@@ -17,7 +17,7 @@ first_3_seconds = song[:three_seconds]
 
 # print "Hola"
 
-first_3_seconds.append(song[three_seconds:].low_pass_filter(100)).export("modified.wav", format="wav")
+(first_3_seconds * 2).export("modified.wav", format="wav")
 
 # (first_3_seconds + last_3_seconds).export("modified.wav", format="wav")
 

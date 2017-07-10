@@ -24,8 +24,11 @@ ORDEN = "NORMAL"
 # REMOVER_PARTE. Estados: NINGUNA, INICIAL, MEDIA, FINAL
 REMOVER_PARTE = "NINGUNA"
 
-# REMOVER_PARTE. Estados: NORMAL, ACTIVADO
+# FILTRO_PASABAJOS. Estados: NORMAL, ACTIVADO
 FILTRO_PASABAJOS = "NORMAL"
+
+# REPETIR_CICLO. Estados: NORMAL, ACTIVADO
+REPETIR_CICLO = "NORMAL"
 
 audios_folder = '../audios/'
 
@@ -113,15 +116,22 @@ def filtrar_bajos(filtro_pasabajos):
     beginning.append(audio[two_seconds:].low_pass_filter(150)).export("audio.wav", format="wav")
     return
 
+def repetir_ciclo(modo_repeticion):
+    if modo_repeticion == "NORMAL":
+        return
+    audio = AudioSegment.from_wav("audio.wav")
+    (audio * 3).export("audio.wav", format="wav")
+    return
+
 def comandos_seleccionados():
     global VELOCIDAD, ORDEN, REMOVER_PARTE
-    text = " Por supuesto. Velocidad: " + VELOCIDAD + ". Orden: " + ORDEN + ". Remover parte: " + REMOVER_PARTE + ". Filtro pasabajos: " + FILTRO_PASABAJOS
+    text = " Por supuesto. Velocidad: " + VELOCIDAD + ". Orden: " + ORDEN + ". Remover parte: " + REMOVER_PARTE + ". Filtro pasabajos: " + FILTRO_PASABAJOS + ". Repetir ciclo: " + REPETIR_CICLO
     text_to_speech("comandos_seleccionados.wav", text, rate_change="+0%", f0mean_change="+0%")
     play("comandos_seleccionados.wav")
     return
 
 def manage():
-    global VELOCIDAD, ORDEN, REMOVER_PARTE, COMANDO_INVALIDO, FILTRO_PASABAJOS
+    global VELOCIDAD, ORDEN, REMOVER_PARTE, COMANDO_INVALIDO, FILTRO_PASABAJOS, REPETIR_CICLO
     message = asr('audio.wav')
     print message
 
@@ -174,6 +184,16 @@ def manage():
                 play(audios_folder + 'pasabajos_activado.wav')
                 return
 
+        if ('repetir' in message) or ('ciclo' in message):
+            if ('normal' in message) or ('cero' in message):
+                cambiar_repetir_ciclo('NORMAL')
+                play(audios_folder + 'repetir_ciclo_normal.wav')
+                return
+            if ('activado' in message) or ('uno' in message):
+                cambiar_repetir_ciclo('ACTIVADO')
+                play(audios_folder + 'repetir_ciclo_activado.wav')
+                return
+
         play(audios_folder + 'repetir_nuevamente.wav')
         return
 
@@ -195,6 +215,9 @@ def manage():
         if ('filtro' in message) or ('pasa' in message) or ('bajos') in message:
             play(audios_folder + 'describir_filtro_pasabajos.wav')
             return
+        if ('repetir' in message) or ('ciclo' in message):
+            play(audios_folder + 'describir_repetir_ciclo.wav')
+            return
         play(audios_folder + 'repetir_nuevamente.wav')
         return
 
@@ -205,6 +228,7 @@ def manage():
     reverse(ORDEN)
     remover_parte(REMOVER_PARTE)
     filtrar_bajos(FILTRO_PASABAJOS)
+    repetir_ciclo(REPETIR_CICLO)
     play()
     return
 
@@ -251,4 +275,10 @@ def cambiar_filtro_pasabajos(nueva_filtro):
     global FILTRO_PASABAJOS
     FILTRO_PASABAJOS = nueva_filtro
     print "Filtro pasabajos: " + FILTRO_PASABAJOS
+    return
+
+def cambiar_repetir_ciclo(nuevo_ciclo):
+    global REPETIR_CICLO
+    REPETIR_CICLO = nuevo_ciclo
+    print "Repetir ciclo: " + REPETIR_CICLO
     return

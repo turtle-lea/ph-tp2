@@ -110,7 +110,7 @@ def filtrar_bajos(filtro_pasabajos):
     audio = AudioSegment.from_wav("audio.wav")
     two_seconds = 2*1000
     audio_muy_corto = audios_folder + 'audio_muy_corto.wav'
-    if audio.duration_seconds < 4 and filtrar_bajos != "NORMAL":
+    if audio.duration_seconds < 4 and filtro_pasabajos != "NORMAL":
         play(audio_muy_corto)
         return
     beginning = audio[:two_seconds]
@@ -227,8 +227,8 @@ def manage():
         return
     speedup(VELOCIDAD)
     reverse(ORDEN)
-    remover_parte(REMOVER_PARTE)
     filtrar_bajos(FILTRO_PASABAJOS)
+    remover_parte(REMOVER_PARTE)
     repetir_ciclo(REPETIR_CICLO)
     play()
     return
